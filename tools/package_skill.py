@@ -2,12 +2,12 @@
 """
 Skill Packager - Creates a distributable .skill file of a skill folder
 
-Usage:
-    python utils/package_skill.py <path/to/skill-folder> [output-directory]
+    Usage:
+        python tools/package_skill.py <path/to/skill-folder> [output-directory]
 
-Example:
-    python utils/package_skill.py skills/public/my-skill
-    python utils/package_skill.py skills/public/my-skill ./dist
+    Example:
+        python tools/package_skill.py skills/public/my-skill
+        python tools/package_skill.py skills/public/my-skill ./dist
 """
 
 import sys
@@ -73,8 +73,9 @@ def package_skill(skill_path, output_dir=None):
                     if any(part in ('.git', '__pycache__', '.DS_Store')
                            for part in file_path.parts):
                         continue
-                    # Calculate the relative path within the zip
-                    arcname = file_path.relative_to(skill_path.parent)
+                    # SkillHub 要求 .skill 包根目录就是 skill 本体内容，
+                    # 所以 arcname 以 skill 文件夹本身为基准，不能多包一层外层目录
+                    arcname = file_path.relative_to(skill_path)
                     zipf.write(file_path, arcname)
                     print(f"  Added: {arcname}")
 
@@ -88,10 +89,10 @@ def package_skill(skill_path, output_dir=None):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python utils/package_skill.py <path/to/skill-folder> [output-directory]")
+        print("Usage: python tools/package_skill.py <path/to/skill-folder> [output-directory]")
         print("\nExample:")
-        print("  python utils/package_skill.py skills/public/my-skill")
-        print("  python utils/package_skill.py skills/public/my-skill ./dist")
+        print("  python tools/package_skill.py skills/public/my-skill")
+        print("  python tools/package_skill.py skills/public/my-skill ./dist")
         sys.exit(1)
 
     skill_path = sys.argv[1]
