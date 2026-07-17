@@ -1,0 +1,28 @@
+name: Bug report
+description: 报告一个 Skill 行为异常
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 期望 vs 实际
+      description: 描述你期望发生什么，实际又发生了什么。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 尽量给出能稳定复现的操作步骤或对话示例。
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release 版本 / tag
+      description: 你正在使用的版本（如 v1.0.0）。
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充信息
+      description: 日志、截图或其他有助于定位问题的信息。

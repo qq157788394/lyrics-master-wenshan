@@ -1,0 +1,39 @@
+name: Release
+
+# 推送 v* 标签时，自动打包 .skill 并发布到 GitHub Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+# 创建 Release 需要写入仓库内容的权限
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Package and publish .skill
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Package skill
+        run: python tools/package_skill.py ".workbuddy/skills/lyrics-master-wenshan" dist
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes \
+            dist/*.skill
