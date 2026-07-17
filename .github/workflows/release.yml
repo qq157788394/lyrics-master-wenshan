@@ -1,39 +1,35 @@
-name: Release
+name: Release Skill Package
 
-# 推送 v* 标签时，自动打包 .skill 并发布到 GitHub Release
+# 推送 v*.*.* tag 时，自动打包为 .zip 并发布到 GitHub Release。
+# 打包逻辑直接写在本 workflow 里（参考 master-lyricist 等兄弟 skill 的惯例），
+# 不往仓库塞任何 .py 脚本。
+
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
 
-# 创建 Release 需要写入仓库内容的权限
 permissions:
   contents: write
 
 jobs:
   build:
-    name: Package and publish .skill
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install pyyaml
-
       - name: Package skill
-        run: python tools/package_skill.py "skills/lyrics-master-wenshan" dist
+        run: |
+          rm -rf pkg && mkdir -p pkg/lyrics-master-wenshan
+          cp skills/lyrics-master-wenshan/SKILL.md README.md pkg/lyrics-master-wenshan/
+          cp -r skills/lyrics-master-wenshan/references pkg/lyrics-master-wenshan/
+          cp -r skills/lyrics-master-wenshan/templates pkg/lyrics-master-wenshan/
+          cd pkg && zip -r "../lyrics-master-wenshan-skill-${GITHUB_REF_NAME}.zip" lyrics-master-wenshan
 
       - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: lyrics-master-wenshan-skill-${{ github.ref_name }}.zip
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME}" \
-            --generate-notes \
-            dist/*.skill
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

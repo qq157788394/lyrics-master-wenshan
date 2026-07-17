@@ -9,8 +9,7 @@
 3. 修改 `skills/lyrics-master-wenshan/` 下的内容
 4. 本地校验：
    ```bash
-   pip install pyyaml
-   python tools/package_skill.py skills/lyrics-master-wenshan dist
+   python ~/.workbuddy/skills/skill-creator/scripts/package_skill.py skills/lyrics-master-wenshan
    ```
    若校验失败，请先修复再提交
 5. 提交并推送到你的 Fork，发起 Pull Request 到 `main`
