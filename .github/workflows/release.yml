@@ -27,7 +27,7 @@ jobs:
         run: pip install pyyaml
 
       - name: Package skill
-        run: python tools/package_skill.py ".workbuddy/skills/lyrics-master-wenshan" dist
+        run: python tools/package_skill.py "skills/lyrics-master-wenshan" dist
 
       - name: Create GitHub Release
         env:

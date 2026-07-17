@@ -6,11 +6,11 @@
 
 1. Fork 本仓库并 `git clone` 到本地
 2. 基于 `main` 创建特性分支：`git checkout -b feat/your-change`
-3. 修改 `.workbuddy/skills/lyrics-master-wenshan/` 下的内容
+3. 修改 `skills/lyrics-master-wenshan/` 下的内容
 4. 本地校验：
    ```bash
    pip install pyyaml
-   python tools/package_skill.py .workbuddy/skills/lyrics-master-wenshan dist
+   python tools/package_skill.py skills/lyrics-master-wenshan dist
    ```
    若校验失败，请先修复再提交
 5. 提交并推送到你的 Fork，发起 Pull Request 到 `main`

@@ -22,3 +22,7 @@ __pycache__/
 # ===== 打包产物（由 CI 生成并发布到 Release，无需入库）=====
 dist/
 *.skill
+
+# ===== Agent 运行时目录（仅本地运行时，非开源交付物，不入库）=====
+# Skill 源代码已移到仓库根的 skills/ 下，.workbuddy/ 只是本机加载副本
+.workbuddy/
