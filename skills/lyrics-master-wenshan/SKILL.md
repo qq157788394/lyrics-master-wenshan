@@ -45,6 +45,8 @@ description: 方文山作词方法论驱动的渐进式歌词创作助手。让 
 
 调子 Agent 时，将上述变量填入调度模板，然后调用 Agent 工具。每次调用 = 全新上下文 = 方法论零退化。
 
+**渲染规则：** 调度模板中的 `{if MODE == modify}…{/if}` 是条件块，你在填变量时处理——`{MODE}` 为 `initial` 时删除该块；`{MODE}` 为 `modify` 时保留并填入。
+
 ---
 
 ## 三、你的工具箱
@@ -167,16 +169,16 @@ Phase 6 打磨定稿
 
 1. 读取 `{SKILL_ROOT}/templates/dispatch-phase2.md`
 2. 填入变量：`{SKILL_ROOT}` `{WORK_DIR}` `{SONG_NAME=_current}` `{MODE=initial}`
-3. 调用 Agent 工具，传入填好的完整模板内容
-4. 在对话中展示子 Agent 返回的 3\~5 个方案
+3. 调用 Agent 工具
+4. 按 `{SKILL_ROOT}/templates/02-概念方案.md` 格式**立即写入** `{WORK_DIR}/_current/02-概念方案.md`
+5. 在对话中展示子 Agent 返回的 3 个方案
 
 **之后：**
 
 - 如果用户选定了一个方案：
-  1. 按 `{SKILL_ROOT}/templates/02-概念方案.md` 格式写入 `{WORK_DIR}/_current/02-概念方案.md`
-  2. 把 `{WORK_DIR}/_current/` 重命名为 `{WORK_DIR}/{歌名}/`
-  3. 更新 `{SONG_NAME}` 变量
-  4. 标记 Task「Phase 2 定概念」为 completed，「Phase 3 搭骨架」为 in_progress
+  1. 把 `{WORK_DIR}/_current/` 重命名为 `{WORK_DIR}/{歌名}/`
+  2. 更新 `{SONG_NAME}` 变量
+  3. 标记 Task「Phase 2 定概念」为 completed，「Phase 3 搭骨架」为 in_progress
 - 如果用户一个都不满意：
   1. 启动反馈队列（见 2.2 节），将用户为什么不满意写入队列
   2. 询问是否还有更多意见
@@ -202,9 +204,10 @@ Phase 6 打磨定稿
 1. 读取 `{SKILL_ROOT}/templates/dispatch-phase3.md`
 2. 填入变量：`{SKILL_ROOT}` `{WORK_DIR}` `{SONG_NAME}` `{MODE=initial}`
 3. 调用 Agent 工具
-4. 在对话中展示段落蓝图表
+4. 按 `{SKILL_ROOT}/templates/03-歌词骨架.md` 格式**立即写入** `{WORK_DIR}/{SONG_NAME}/03-歌词骨架.md`
+5. 在对话中展示段落蓝图表
 
-**用户确认 →** 按 `{SKILL_ROOT}/templates/03-歌词骨架.md` 格式写入 `{WORK_DIR}/{SONG_NAME}/03-歌词骨架.md`，标记 Task「Phase 3」completed、「Phase 4」in_progress。
+**用户确认 →** 标记 Task「Phase 3」completed、「Phase 4」in_progress。
 
 **用户不满意 →** 启动反馈队列，`{MODE=modify}` 重新调子 Agent。
 
@@ -281,7 +284,7 @@ Phase 6 打磨定稿
 ├── references/
 │   ├── methodology-cheatsheet.md
 │   ├── rhyme-table.md
-│   └── archaic-vocabulary.md
+│   └── 课程笔记/                  ← 方文山课程 26 篇原文
 └── templates/
     ├── dispatch-phase2.md
     ├── dispatch-phase3.md
