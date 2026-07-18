@@ -5,6 +5,7 @@
 SKILL_AUDIT_*.md
 SKILL_REVIEW_*.md
 测试报告-*.md
+分析报告-*.md
 
 # ===== macOS =====
 .DS_Store
@@ -24,3 +25,4 @@ dist/
 # ===== Agent 运行时目录（仅本地运行时，非开源交付物，不入库）=====
 # Skill 源代码已移到仓库根的 skills/ 下，.workbuddy/ 只是本机加载副本
 .workbuddy/
+.trae/
